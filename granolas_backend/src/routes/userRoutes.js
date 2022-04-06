@@ -26,7 +26,17 @@ router.get("/:userId", async (req, response) => {
 
 });
 
-router.post("/", async (req, res) => {});
+router.post("/:id/:senha", async (req, res) => {
+    let dt = new Date();
+    let dtSt = dt.toString();
+    let customer = req.params;
+    console.log(customer); //'SELECT NOW()::timestamp'
+    
+	const sql = "UPDATE public.usuarios SET atualizado_por=$1, atualizado_em=$2, senha=$3 WHERE id=$4";
+	const values = [1, '2022-04-12' ,customer.senha, customer.id];
+    await client.query(sql, values);
+	return res.send("User updated").status(200);
+});
 
 router.put("/:userId", async (req, res) => {});
 
