@@ -34,25 +34,6 @@ router.get("/:id", async (req, res) => {
             response.status(200).json(res.rows[0]);
         }
     });
-    /*const query = `
-        SELECT * FROM
-            public.enderecos_usuarios
-        LEFT JOIN WHERE id=$1
-    
-    
-    `
-    const value = req.params.userId;
-
-    client.query(query, value,  (err, res) => {
-
-        if (err) {
-            console.log(err.stack)
-        } else {
-            console.log(res.rows[0])
-        }
-
-    });*/
-
 });
 
 router.post("/", async (req, res) => {
@@ -70,8 +51,27 @@ router.post("/", async (req, res) => {
     console.log(sqlstring);
 });
 
-router.delete("/:addressId", async (req, res) => {});
+router.delete("/:addressId", async (req, res) => {
+    let addressId = req.params;
+    let dt = new Date();
 
-router.put("/:addressId", async (req, res) => {});
+    const sql = "UPDATE public.enderecos_usuarios SET deletado_por=$1, deletado_em=$2 WHERE id=$3";
+    const values = [addressId.userlog, dateTime(dt), Number(addressId.addressId)];
+
+    await client.query(sql, values);
+    return res.json(res.rows).status(200);
+});
+
+router.put("/:addressId", async (req, res) => {
+    let dt = new Date();
+    let dtSt = dt.toString();
+    let customer = req.params;
+    console.log(customer); 
+    
+	const sql = "UPDATE public.enderecos_usuarios SET atualizado_por=$1, atualizado_em=$2, id_usuario=$3, cep=$4, numero=$5, complemento=$6, logradouro=$7, cidade=$8, uf=$9 WHERE id=$4";
+	const values = [customer.userlog, `${dateTime(dt)}` ,customer.iduser, customer.cep, customer.numero, customer.complemento, customer.logradouro, customer.cidade, customer.uf];
+    await client.query(sql, values);
+	return res.json(res.rows).status(200);
+});
 
 module.exports = router;
