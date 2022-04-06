@@ -26,7 +26,7 @@ router.get("/:userId", async (req, response) => {
 
 });
 
-router.post("/:id/:senha", async (req, res) => {
+router.put("/:id/:senha", async (req, res) => {
     let dt = new Date();
     let dtSt = dt.toString();
     let customer = req.params;
@@ -38,7 +38,21 @@ router.post("/:id/:senha", async (req, res) => {
 	return res.send("User updated").status(200);
 });
 
-router.put("/:userId", async (req, res) => {});
+router.post("/", async (req, res) => {
+    let dates = req.body;
+    console.log(dates);
+    const date = new Date();
+    const datenow = `${date.getFullYear}-${date.getMonth+1}-${date.getDate}`
+    let sqlstring = `INSERT INTO usuarios (nome, cpf, dt_nascimento, email, senha, tipo_de_usuario, criado_por, criado_em)
+        VALUES (${dates.nome}, ${dates.cpf},${dates.nascimento}, ${dates.email}, ${dates.senha}, ${dates.tipouser},${dates.userlog}, ${datenow})
+        `
+    client.query(sqlstring, (err, res) => {
+        console.log(err ? err.stack : res.rows[0].message)
+        client.end()
+      });
+    res.send(sqlstring);
+    console.log(sqlstring);
+});
 
 router.delete("/:userId", async (req, res) => {});
 
