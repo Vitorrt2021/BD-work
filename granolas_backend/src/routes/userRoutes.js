@@ -72,6 +72,15 @@ router.post("/", async (req, res) => {
     console.log(sqlstring);
 });
 
-router.delete("/:userId", async (req, res) => {});
+router.delete("/:userId", async (req, res) => {
+    let user = req.params;
+    let dt = new Date();
+
+    const sql = "UPDATE public.usuarios SET deletado_por=$1, deletado_em=$2 WHERE id=$3";
+    const values = [5, dateTime(dt), Number(user.userId)];
+
+    await client.query(sql, values);
+    return res.json(res.rows).status(200);
+});
 
 module.exports = router;
