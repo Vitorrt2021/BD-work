@@ -1,7 +1,6 @@
 {
   "name": "granolas_backend",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +16,7 @@
     "express": "^4.17.3",
     "express-async-error": "^0.0.2",
     "pg": "^8.7.3"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

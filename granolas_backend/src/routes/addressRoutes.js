@@ -4,7 +4,28 @@ const address = require("../model/address");
 
 const errorHandler = require("../controller/errorHandler");
 
-router.get("/", async (req, res) => {});
+router.get("/:id", async (req, res) => {
+
+    const query = `
+        SELECT * FROM
+            public.enderecos_usuarios
+        LEFT JOIN WHERE id=$1
+    
+    
+    `
+    const value = req.params.userId;
+
+    client.query(query, value,  (err, res) => {
+
+        if (err) {
+            console.log(err.stack)
+        } else {
+            console.log(res.rows[0])
+        }
+
+    });
+
+});
 
 router.get("/:id", async (req, res) => {});
 
