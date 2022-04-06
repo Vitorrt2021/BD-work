@@ -58,15 +58,14 @@ router.put("/:id/:senha", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    let dates = req.body;
-    console.log(dates);
+    let costumer = req.body;
     const dt = new Date();
     
     let sqlstring = `INSERT INTO public.usuarios (nome, cpf, dt_nascimento, email, senha, tipo_de_usuario, criado_por, criado_em )
-        VALUES ('${dates.nome}', '${dates.cpf}','${dates.nascimento}', '${dates.email}', '${dates.senha}', ${Number(dates.tipouser)}, 5, ${dateTime(dt)})`;
+        VALUES ('${costumer.nome}', '${costumer.cpf}','${costumer.nascimento}', '${costumer.email}', '${costumer.senha}', ${Number(costumer.tipouser)}, ${Number(costumer.userlog)}, '${dateTime(dt)}')`;
     client.query(sqlstring, (err, res) => {
         console.log(err ? err.stack : res.rows[0])
-        client.end()
+        /* client.end() */
       });
     res.send(sqlstring);
     console.log(sqlstring);
